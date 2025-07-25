@@ -1,0 +1,39 @@
+<div class="container mt-4">
+  <div class="card">
+    <div class="card-header">
+      <h4>Dashboard de Ventas</h4>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-12">
+          <h5>Ventas por Día</h5>
+          <ngx-charts-bar-vertical
+            [view]="view"
+            [results]="ventasPorDia"
+            [xAxis]="showXAxis"
+            [yAxis]="showYAxis"
+            [legend]="showLegend"
+            [gradient]="gradient"
+            [xAxisLabel]="xAxisLabel"
+            [yAxisLabel]="yAxisLabel"
+            [showXAxisLabel]="showXAxisLabel"
+            [showYAxisLabel]="showYAxisLabel">
+          </ngx-charts-bar-vertical>
+        </div>
+      </div>
+      <hr>
+      <div class="row mt-4">
+        <div class="col-md-12">
+          <h5>Ventas por Producto</h5>
+          <ngx-charts-pie-chart
+            [view]="view"
+            [results]="ventasPorProducto"
+            [legend]="showLegend"
+            [labels]="true"
+            [doughnut]="true">
+          </ngx-charts-pie-chart>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

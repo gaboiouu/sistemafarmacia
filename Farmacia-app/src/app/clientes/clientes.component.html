@@ -1,0 +1,85 @@
+<div class="container mt-4">
+  <div class="row">
+    <!-- DNI Search -->
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-header">
+          <h4>Buscar Cliente por DNI (RENIEC)</h4>
+        </div>
+        <div class="card-body">
+          <form [formGroup]="dniSearchForm" (ngSubmit)="onDniSearch()">
+            <div class="input-group">
+              <input type="text" formControlName="dni" class="form-control" placeholder="Ingrese DNI de 8 dígitos">
+              <button type="submit" class="btn btn-primary" [disabled]="dniSearchForm.invalid">
+                <i class="fas fa-search"></i> Buscar
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <!-- Manual Registration -->
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-header">
+          <h4>Registro Manual de Cliente</h4>
+        </div>
+        <div class="card-body">
+          <form [formGroup]="clienteForm" (ngSubmit)="onSubmit()">
+            <div class="row">
+              <div class="col-md-6">
+                <input formControlName="nombres" class="form-control mb-2" placeholder="Nombres">
+              </div>
+              <div class="col-md-6">
+                <input formControlName="apellidos" class="form-control mb-2" placeholder="Apellidos">
+              </div>
+              <div class="col-md-12">
+                <input formControlName="num_doc" class="form-control mb-2" placeholder="Documento">
+              </div>
+            </div>
+            <button type="submit" class="btn btn-success" [disabled]="clienteForm.invalid">Registrar</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card mt-4">
+    <div class="card-header">
+      <h4>Listado de Clientes</h4>
+    </div>
+    <div class="card-body">
+      <form [formGroup]="searchForm" (ngSubmit)="onSearch()" class="mb-3">
+        <div class="input-group">
+          <input type="text" formControlName="termino" class="form-control" placeholder="Buscar por nombre...">
+          <button type="submit" class="btn btn-info">Buscar</button>
+        </div>
+      </form>
+
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Nombres</th>
+            <th>Apellidos</th>
+            <th>Documento</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let cliente of clientes">
+            <td>{{ cliente.id_cliente }}</td>
+            <td>{{ cliente.nombres }}</td>
+            <td>{{ cliente.apellidos }}</td>
+            <td>{{ cliente.num_doc }}</td>
+            <td>
+              <button class="btn btn-sm btn-success" (click)="realizarVenta(cliente)">
+                <i class="fas fa-shopping-cart"></i> Realizar Venta
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

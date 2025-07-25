@@ -1,0 +1,96 @@
+<div class="container mt-4">
+  <div class="card">
+    <div class="card-header">
+      <h4>Gestión de Productos</h4>
+    </div>
+    <div class="card-body">
+      <form [formGroup]="productoForm" (ngSubmit)="onSubmit()">
+        <!-- Form fields for producto -->
+        <div class="row">
+          <div class="col-md-4">
+            <label for="cod_producto" class="form-label">Código</label>
+            <input type="text" id="cod_producto" formControlName="cod_producto" class="form-control">
+          </div>
+          <div class="col-md-8">
+            <label for="nom_producto" class="form-label">Nombre</label>
+            <input type="text" id="nom_producto" formControlName="nom_producto" class="form-control">
+          </div>
+        </div>
+        <div class="row mt-2">
+          <div class="col-md-4">
+            <label for="precio_venta" class="form-label">Precio Venta</label>
+            <input type="number" id="precio_venta" formControlName="precio_venta" class="form-control">
+          </div>
+          <div class="col-md-4">
+            <label for="stock" class="form-label">Stock</label>
+            <input type="number" id="stock" formControlName="stock" class="form-control">
+          </div>
+          <div class="col-md-4">
+            <label for="fec_vencimiento" class="form-label">Fecha Vencimiento</label>
+            <input type="date" id="fec_vencimiento" formControlName="fec_vencimiento" class="form-control">
+          </div>
+        </div>
+        <!-- Add other form fields as needed -->
+        <div class="mt-3">
+          <button type="submit" class="btn btn-primary me-2" [disabled]="productoForm.invalid">
+            {{ isEditMode ? 'Actualizar' : 'Crear' }}
+          </button>
+          <button type="button" class="btn btn-secondary" (click)="resetForm()">Cancelar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="card mt-4">
+    <div class="card-header">
+      <h4>Listado de Productos</h4>
+    </div>
+    <div class="card-body">
+      <form [formGroup]="filterForm" (ngSubmit)="onFilter()" class="mb-3">
+        <div class="row">
+          <div class="col-md-5">
+            <input type="text" formControlName="nombre" class="form-control" placeholder="Buscar por nombre...">
+          </div>
+          <div class="col-md-5">
+            <input type="text" formControlName="categoria" class="form-control" placeholder="Buscar por categoría...">
+          </div>
+          <div class="col-md-2">
+            <button type="submit" class="btn btn-info w-100">Filtrar</button>
+          </div>
+        </div>
+      </form>
+
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Código</th>
+            <th>Nombre</th>
+            <th>Precio</th>
+            <th>Stock</th>
+            <th>Vencimiento</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let producto of productos">
+            <td>{{ producto.id_producto }}</td>
+            <td>{{ producto.cod_producto }}</td>
+            <td>{{ producto.nom_producto }}</td>
+            <td>{{ producto.precio_venta | currency:'S/.' }}</td>
+            <td>{{ producto.stock }}</td>
+            <td>{{ producto.fec_vencimiento | date:'dd/MM/yyyy' }}</td>
+            <td>
+              <button class="btn btn-sm btn-warning me-2" (click)="editProducto(producto)">
+                <i class="fas fa-edit"></i>
+              </button>
+              <button class="btn btn-sm btn-danger" (click)="deleteProducto(producto.id_producto!)">
+                <i class="fas fa-trash"></i>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
