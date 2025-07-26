@@ -46,11 +46,34 @@
           <button type="submit" class="btn btn-success me-2" [disabled]="ventaForm.invalid || !cliente">
             <i class="fas fa-save"></i> Registrar Venta
           </button>
-          <button type="button" class="btn btn-secondary" (click)="imprimirBoleta()">
-            <i class="fas fa-print"></i> Imprimir Boleta
-          </button>
         </div>
       </form>
+      <!-- Boleta para impresión -->
+      <div id="boletaImpresion" style="display:none;">
+        <div style="width:350px; margin:auto; font-family:monospace;">
+          <h4 style="text-align:center;">FARMACIA</h4>
+          <p style="text-align:center;">RUC: 12345678901<br>Av. Principal 123<br>Chimbote</p>
+          <hr>
+          <p><b>Cliente:</b> {{ getNombreCliente() }}</p>
+          <p><b>Fecha:</b> {{ fechaActual | date:'short' }}</p>
+          <table style="width:100%; font-size:13px;">
+            <thead>
+              <tr><th>Producto</th><th>Cant</th><th>P.Unit</th><th>Imp.</th></tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let d of detalles.controls">
+                <td>{{ getNombreProducto(d.value.idproducto) }}</td>
+                <td>{{ d.value.cantidad }}</td>
+                <td>{{ d.value.precio | number:'1.2-2' }}</td>
+                <td>{{ (d.value.precio * d.value.cantidad) | number:'1.2-2' }}</td>
+              </tr>
+            </tbody>
+          </table>
+          <hr>
+          <p style="text-align:right;"><b>Total: S/. {{ totalVenta | number:'1.2-2' }}</b></p>
+          <p style="text-align:center;">¡Gracias por su compra!</p>
+        </div>
+      </div>
+        </div>
     </div>
   </div>
-</div>

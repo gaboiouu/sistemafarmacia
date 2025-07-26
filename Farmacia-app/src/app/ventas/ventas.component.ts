@@ -13,6 +13,16 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./ventas.component.scss']
 })
 export class VentasComponent implements OnInit {
+  getNombreCliente(): string {
+    if (!this.cliente) return '';
+    const nombres = this.cliente.nombres ? this.cliente.nombres : '';
+    const apellidos = this.cliente.apellidos ? this.cliente.apellidos : '';
+    return (nombres + ' ' + apellidos).trim();
+  }
+  getNombreProducto(id: number): string {
+    const prod = this.productos.find((p: Producto) => p.id === +id);
+    return prod ? prod.nombre : '';
+  }
   ventaForm: FormGroup;
   cliente: Cliente | null = null;
   productos: Producto[] = [];
@@ -29,7 +39,7 @@ export class VentasComponent implements OnInit {
     this.cliente = navigation?.extras.state?.['cliente'] || null;
 
     this.ventaForm = this.fb.group({
-      cliente: [this.cliente ? `${this.cliente.nombres} ${this.cliente.apellidos}` : ''],
+      cliente: [this.getNombreCliente()],
       detalles: this.fb.array([])
     });
   }
@@ -108,7 +118,15 @@ export class VentasComponent implements OnInit {
     }
   }
 
+  fechaActual: Date = new Date();
+
   imprimirBoleta(): void {
+    // Oculta todo menos la boleta
+    const originalBody = document.body.innerHTML;
+    const boletaHtml = (document.getElementById('boletaImpresion') as HTMLElement).innerHTML;
+    document.body.innerHTML = boletaHtml;
     window.print();
+    document.body.innerHTML = originalBody;
+    window.location.reload();
   }
 }
