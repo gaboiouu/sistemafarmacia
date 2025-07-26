@@ -22,20 +22,13 @@ export class ProductosComponent implements OnInit {
     private toastr: ToastrService
   ) {
     this.productoForm = this.fb.group({
-      cod_producto: ['', Validators.required],
-      nom_producto: ['', Validators.required],
-      concentracion: [''],
-      nom_form_farmaceutica: [''],
-      nom_form_farm_simplificada: [''],
-      presentacion: [''],
-      fracciones: [1],
-      fec_vencimiento: ['', Validators.required],
-      num_lote: [''],
-      rs: [''],
-      precio_venta: [0, [Validators.required, Validators.min(0)]],
-      stock: [0, [Validators.required, Validators.min(0)]],
-      id_laboratorio: [1, Validators.required],
-      id_proveedor: [1, Validators.required]
+      nombre: ['', Validators.required],
+      precio: [0, [Validators.required, Validators.min(0)]],
+      cantidad: [0, [Validators.required, Validators.min(0)]],
+      fechaVencimiento: ['', Validators.required],
+      descripcion: [''],
+      categoria: [''],
+      sede: [null]
     });
 
     this.filterForm = this.fb.group({
@@ -103,7 +96,7 @@ export class ProductosComponent implements OnInit {
 
   editProducto(producto: Producto): void {
     this.isEditMode = true;
-    this.currentProductoId = producto.id_producto!;
+    this.currentProductoId = producto.id!;
     this.productoForm.patchValue(producto);
   }
 
@@ -126,11 +119,8 @@ export class ProductosComponent implements OnInit {
     this.isEditMode = false;
     this.currentProductoId = null;
     this.productoForm.reset({
-      fracciones: 1,
-      precio_venta: 0,
-      stock: 0,
-      id_laboratorio: 1,
-      id_proveedor: 1
+      precio: 0,
+      cantidad: 0
     });
   }
 }

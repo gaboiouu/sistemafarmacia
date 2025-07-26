@@ -62,16 +62,18 @@
             <th>ID</th>
             <th>Nombres</th>
             <th>Apellidos</th>
-            <th>Documento</th>
+            <th>DNI</th>
+            <th>Fuente</th>
             <th>Acciones</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let cliente of clientes">
-            <td>{{ cliente.id_cliente }}</td>
+            <td>{{ cliente.id }}</td>
             <td>{{ cliente.nombres }}</td>
-            <td>{{ cliente.apellidos }}</td>
-            <td>{{ cliente.num_doc }}</td>
+            <td>{{ cliente.apellidoPaterno }} {{ cliente.apellidoMaterno }}</td>
+            <td>{{ cliente.dni }}</td>
+            <td>{{ cliente.fuenteDatos }}</td>
             <td>
               <button class="btn btn-sm btn-success" (click)="realizarVenta(cliente)">
                 <i class="fas fa-shopping-cart"></i> Realizar Venta

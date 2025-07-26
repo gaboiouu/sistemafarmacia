@@ -16,8 +16,8 @@
             <div class="col-md-6">
               <select formControlName="idproducto" class="form-select">
                 <option value="">Seleccione un producto</option>
-                <option *ngFor="let producto of productos" [value]="producto.id_producto">
-                  {{ producto.nom_producto }}
+                <option *ngFor="let producto of productos" [value]="producto.id">
+                  {{ producto.nombre }}
                 </option>
               </select>
             </div>

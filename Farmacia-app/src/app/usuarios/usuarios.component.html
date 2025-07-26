@@ -6,24 +6,39 @@
     <div class="card-body">
       <form [formGroup]="usuarioForm" (ngSubmit)="onSubmit()">
         <div class="row">
-          <div class="col-md-4">
+          <div class="col-md-3">
             <label for="username" class="form-label">Username</label>
             <input type="text" id="username" formControlName="username" class="form-control">
           </div>
-          <div class="col-md-4">
+          <div class="col-md-3">
             <label for="nombreCompleto" class="form-label">Nombre Completo</label>
             <input type="text" id="nombreCompleto" formControlName="nombreCompleto" class="form-control">
           </div>
-          <div class="col-md-4">
+          <div class="col-md-3">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" id="email" formControlName="email" class="form-control">
+          </div>
+          <div class="col-md-3">
             <label for="rol" class="form-label">Rol</label>
             <select id="rol" formControlName="rol" class="form-select">
               <option value="ADMIN">Admin</option>
               <option value="VENDEDOR">Vendedor</option>
             </select>
           </div>
-          <div class="col-md-4" *ngIf="!isEditMode">
+          <div class="col-md-3" *ngIf="!isEditMode">
             <label for="password" class="form-label">Password</label>
             <input type="password" id="password" formControlName="password" class="form-control">
+          </div>
+          <div class="col-md-3">
+            <label for="sede" class="form-label">Sede</label>
+            <input type="text" id="sede" formControlName="sede" class="form-control">
+          </div>
+          <div class="col-md-3">
+            <label for="activo" class="form-label">Activo</label>
+            <select id="activo" formControlName="activo" class="form-select">
+              <option [ngValue]="true">Sí</option>
+              <option [ngValue]="false">No</option>
+            </select>
           </div>
         </div>
         <div class="mt-3">

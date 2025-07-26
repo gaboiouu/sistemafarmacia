@@ -23,8 +23,11 @@ export class UsuariosComponent implements OnInit {
     this.usuarioForm = this.fb.group({
       username: ['', Validators.required],
       nombreCompleto: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
       rol: ['VENDEDOR', Validators.required],
-      password: ['', Validators.required]
+      password: ['', Validators.required],
+      sede: [null],
+      activo: [true]
     });
   }
 
@@ -46,27 +49,38 @@ export class UsuariosComponent implements OnInit {
 
   onSubmit(): void {
     if (this.usuarioForm.valid) {
+      const formValue = { ...this.usuarioForm.value };
+      // Adaptar sede: si es un valor (número o string), convertir a objeto {id: value}
+      if (formValue.sede !== null && formValue.sede !== undefined && formValue.sede !== '') {
+        formValue.sede = { id: formValue.sede };
+      } else {
+        formValue.sede = null;
+      }
+      // Si está en modo edición, no enviar password si está vacío
+      if (this.isEditMode && !formValue.password) {
+        delete formValue.password;
+      }
       if (this.isEditMode && this.currentUsuarioId) {
-        this.usuarioService.updateUsuario(this.currentUsuarioId, this.usuarioForm.value).subscribe(
+        this.usuarioService.updateUsuario(this.currentUsuarioId, formValue).subscribe(
           () => {
             this.toastr.success('Usuario actualizado con éxito.');
             this.resetForm();
             this.loadUsuarios();
           },
           (error) => {
-            this.toastr.error('Error al actualizar el usuario.');
+            this.toastr.error(error?.error?.error || 'Error al actualizar el usuario.');
             console.error(error);
           }
         );
       } else {
-        this.usuarioService.createUsuario(this.usuarioForm.value).subscribe(
+        this.usuarioService.createUsuario(formValue).subscribe(
           () => {
             this.toastr.success('Usuario creado con éxito.');
             this.resetForm();
             this.loadUsuarios();
           },
           (error) => {
-            this.toastr.error('Error al crear el usuario.');
+            this.toastr.error(error?.error?.error || 'Error al crear el usuario.');
             console.error(error);
           }
         );
@@ -77,7 +91,10 @@ export class UsuariosComponent implements OnInit {
   editUsuario(usuario: Usuario): void {
     this.isEditMode = true;
     this.currentUsuarioId = usuario.id!;
-    this.usuarioForm.patchValue(usuario);
+    this.usuarioForm.patchValue({
+      ...usuario,
+      password: '' // No mostrar password
+    });
     this.usuarioForm.get('password')?.clearValidators();
     this.usuarioForm.get('password')?.updateValueAndValidity();
   }
@@ -100,7 +117,7 @@ export class UsuariosComponent implements OnInit {
   resetForm(): void {
     this.isEditMode = false;
     this.currentUsuarioId = null;
-    this.usuarioForm.reset({ rol: 'VENDEDOR' });
+    this.usuarioForm.reset({ rol: 'VENDEDOR', activo: true });
     this.usuarioForm.get('password')?.setValidators(Validators.required);
     this.usuarioForm.get('password')?.updateValueAndValidity();
   }

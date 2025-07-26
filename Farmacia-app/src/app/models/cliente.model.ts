@@ -1,8 +1,13 @@
 export interface Cliente {
-  id_cliente?: number;
+  id?: number;
+  dni: string;
   nombres: string;
-  apellidos: string;
-  direccion: string;
-  id_ubigeo: string;
-  num_doc: string;
+  apellidoPaterno: string;
+  apellidoMaterno: string;
+  telefono?: string;
+  fuenteDatos: string;
+  fechaRegistro: string;
+  // Campos legacy opcionales para compatibilidad
+  nombre?: string;
+  apellidos?: string;
 }

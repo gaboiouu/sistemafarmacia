@@ -8,21 +8,19 @@
         <thead>
           <tr>
             <th>ID</th>
-            <th>Código</th>
             <th>Nombre</th>
-            <th>Stock</th>
-            <th>Precio Venta</th>
+            <th>Cantidad</th>
+            <th>Precio</th>
             <th>Fecha Vencimiento</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let producto of inventario">
-            <td>{{ producto.id_producto }}</td>
-            <td>{{ producto.cod_producto }}</td>
-            <td>{{ producto.nom_producto }}</td>
-            <td>{{ producto.stock }}</td>
-            <td>{{ producto.precio_venta | currency:'S/.' }}</td>
-            <td>{{ producto.fec_vencimiento | date:'dd/MM/yyyy' }}</td>
+            <td>{{ producto.id }}</td>
+            <td>{{ producto.nombre }}</td>
+            <td>{{ producto.cantidad }}</td>
+            <td>{{ producto.precio | currency:'S/.' }}</td>
+            <td>{{ producto.fechaVencimiento | date:'dd/MM/yyyy' }}</td>
           </tr>
         </tbody>
       </table>

@@ -56,9 +56,9 @@ export class VentasComponent implements OnInit {
 
     detalleForm.get('idproducto')?.valueChanges.subscribe(id => {
       if (id) {
-        const producto = this.productos.find(p => p.id_producto === +id);
+        const producto = this.productos.find(p => p.id === +id);
         if (producto) {
-          detalleForm.get('precio')?.setValue(producto.precio_venta);
+          detalleForm.get('precio')?.setValue(producto.precio);
           this.calculateTotal();
         }
       }
@@ -85,7 +85,7 @@ export class VentasComponent implements OnInit {
   onSubmit(): void {
     if (this.ventaForm.valid && this.cliente) {
       const ventaData = {
-        idcliente: this.cliente.id_cliente,
+        idcliente: this.cliente.id,
         fechaRegistro: new Date(),
         precioTotal: this.totalVenta,
         sede: { id: 1 }, // Assuming a default sede
@@ -95,7 +95,10 @@ export class VentasComponent implements OnInit {
       this.ventaService.createVenta(ventaData).subscribe(
         () => {
           this.toastr.success('Venta registrada con éxito.');
-          this.router.navigate(['/clientes']);
+          this.imprimirBoleta();
+          setTimeout(() => {
+            this.router.navigate(['/clientes']);
+          }, 500);
         },
         (error) => {
           this.toastr.error('Error al registrar la venta.');

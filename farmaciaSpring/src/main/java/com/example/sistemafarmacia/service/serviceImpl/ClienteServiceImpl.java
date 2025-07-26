@@ -78,9 +78,9 @@ public class ClienteServiceImpl implements ClienteService {
     private Cliente crearClienteDesdeReniec(String dni, ReniecResponseDTO reniecData) {
         Cliente cliente = new Cliente();
         cliente.setDni(dni);
-        cliente.setNombres(reniecData.getNombres());
-        cliente.setApellidoPaterno(reniecData.getApellidoPaterno());
-        cliente.setApellidoMaterno(reniecData.getApellidoMaterno());
+        cliente.setNombres(reniecData.getNombres() != null ? reniecData.getNombres() : "");
+        cliente.setApellidoPaterno(reniecData.getApellidoPaterno() != null ? reniecData.getApellidoPaterno() : "");
+        cliente.setApellidoMaterno(reniecData.getApellidoMaterno() != null ? reniecData.getApellidoMaterno() : "");
         cliente.setFuenteDatos("RENIEC");
         cliente.setFechaRegistro(LocalDateTime.now());
         return cliente;
