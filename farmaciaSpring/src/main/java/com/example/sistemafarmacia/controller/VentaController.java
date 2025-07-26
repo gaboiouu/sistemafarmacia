@@ -1,4 +1,8 @@
+
 package com.example.sistemafarmacia.controller;
+
+import com.example.sistemafarmacia.dto.VentaConDetallesDTO;
+import com.example.sistemafarmacia.repository.VentaDetalleRepository;
 
 import com.example.sistemafarmacia.model.Producto;
 import com.example.sistemafarmacia.model.VentaDetalle;
@@ -19,6 +23,9 @@ import java.util.List;
 public class VentaController {
 
     @Autowired
+    private VentaDetalleRepository ventaDetalleRepository;
+
+    @Autowired
     private VentaService ventaService;
 
     @Autowired
@@ -26,8 +33,21 @@ public class VentaController {
 
     @PreAuthorize("hasAnyRole('ADMIN', 'VENDEDOR')")
     @GetMapping
-    public List<Venta> getAllVentas() {
-        return ventaService.getAllVentas();
+    public List<VentaConDetallesDTO> getAllVentas() {
+        List<Venta> ventas = ventaService.getAllVentas();
+        return ventas.stream()
+            .filter(v -> v != null && v.getIdcliente() != 0)
+            .map(venta -> {
+                VentaConDetallesDTO dto = new VentaConDetallesDTO();
+                dto.setId(venta.getId());
+                dto.setIdcliente(venta.getIdcliente());
+                dto.setFechaRegistro(venta.getFechaRegistro());
+                dto.setPrecioTotal(venta.getPrecioTotal());
+                dto.setSede(venta.getSede());
+                dto.setDetalles(ventaDetalleRepository.findByIdventa(venta.getId()));
+                return dto;
+            })
+            .toList();
     }
 
     @PreAuthorize("hasAnyRole('ADMIN', 'VENDEDOR')")
